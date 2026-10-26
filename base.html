@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}SkyCast Weather{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><header class="topbar"><a class="brand" href="/">☀ SkyCast</a><span>Live weather dashboard</span></header>
+<main class="container">{% block content %}{% endblock %}</main><footer>Weather data is informational and supplied by the selected public service.</footer></body></html>
