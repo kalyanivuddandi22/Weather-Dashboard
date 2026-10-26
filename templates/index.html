@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}SkyCast | Weather Dashboard{% endblock %}
+{% block content %}
+<section class="hero"><div class="eyebrow">WEATHER · API INTEGRATION</div><h1>Weather, at a glance.</h1>
+<p class="subtitle">Search a city to view current temperature, conditions, humidity, and wind speed.</p>
+<form method="post" class="search-card"><label for="city">City name</label><div class="search-row">
+<input id="city" name="city" type="text" value="{{ city }}" placeholder="e.g. Vijayawada, London, Tokyo" maxlength="100" required>
+<select name="provider" aria-label="Weather provider"><option value="open-meteo" {% if provider == "open-meteo" %}selected{% endif %}>Open-Meteo · No API key</option>
+<option value="openweathermap" {% if provider == "openweathermap" %}selected{% endif %}>OpenWeatherMap · API key</option></select><button type="submit">Get weather</button></div>
+<p class="hint">Open-Meteo is selected by default and does not require an API key.</p></form></section>
+{% if error %}<section class="alert" role="alert"><strong>We couldn't get that weather.</strong><p>{{ error }}</p></section>{% endif %}
+{% if weather %}<section class="weather-card"><div class="weather-heading"><div><div class="eyebrow">CURRENT CONDITIONS</div>
+<h2>{{ weather.city }}{% if weather.country %}, {{ weather.country }}{% endif %}</h2><p>{{ weather.condition }}</p></div>
+<div class="temp">{{ "%.1f"|format(weather.temperature_c) }}<span>°C</span></div></div>
+<div class="metrics"><div class="metric"><span>💧 Humidity</span><strong>{% if weather.humidity_percent is not none %}{{ weather.humidity_percent }}%{% else %}Not available{% endif %}</strong></div>
+<div class="metric"><span>💨 Wind speed</span><strong>{{ "%.1f"|format(weather.wind_kmh) }} km/h</strong></div>
+<div class="metric"><span>🌡️ Temperature</span><strong>{{ "%.1f"|format(weather.temperature_c) }} °C</strong></div></div>
+<div class="meta">Provider: {{ weather.provider }} · Observation: {{ weather.observed_at }}</div></section>{% endif %}
+<section class="info-grid"><article><span class="icon">🌐</span><h3>Live API data</h3><p>Fetches weather from a public service rather than hard-coded sample values.</p></article>
+<article><span class="icon">🛡️</span><h3>Resilient by design</h3><p>Handles missing cities, connectivity problems, timeouts, and credential errors with friendly messages.</p></article>
+<article><span class="icon">🔐</span><h3>Safer configuration</h3><p>Optional credentials are read from environment variables, not embedded in source code.</p></article></section>
+{% endblock %}
